@@ -1,0 +1,110 @@
+---
+title: "On the development of this app"
+date: "`r Sys.Date()`"
+author: "Daniel Amieva Rodriguez"
+output:
+  rmdformats::downcute:
+    downcute_theme: chaos
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+
+pacman::p_load(googlesheets4,
+               dplyr,
+               rmdformats,
+               here,
+               gt,
+               gtExtras,
+               DT,
+               janitor)
+
+here::i_am("developing_the_static_site.Rmd")
+
+source(
+  here::here("R","fetch_poly_directory.R")
+)
+
+directorio_df <- fetch_poly_directory() %>% 
+  janitor::clean_names()
+
+tally_this <- function(data,
+                       column){
+  
+ basic_kable <- data %>% 
+   group_by({{column}}) %>% 
+  count() %>% 
+  rename("# de terapeutas" = n) %>% 
+  arrange(desc(`# de terapeutas`)) %>% 
+  knitr::kable(.)
+ 
+ return(basic_kable)
+}
+
+```
+
+## Objetive
+
+This space is used for developing visualization ideas.
+
+Considering that the dataset has many potential filter columns its important to think of ways to be able to select any of these in a few clicks. UX is the most important focus of this project given that the data is already [freely provided for](https://docs.google.com/spreadsheets/d/1Kc_kCvysiwwWssyRsgtmAvx2HeB0WcAW0MagakIwORY/htmlview) and looking through a spreadsheet of `r ncol(directorio_df)` columns and `r nrow(directorio_df)` records can be overwhelming to decide which type of filter to implement. 
+
+My current idea is to tally the category to measure the most repeated values to see if *that can guide what kind of slicer to implement.
+
+Inicial la pagina web estatica puede dar la opcion de escoger entre:
+ - escoger por presencial o en linea: **modalidad** y **ciudad** requires parsing into 2 and categorized. I dont want to do parsing so maybe I can tokenize **institucion, especialidad, 
+
+
+## Raw Data
+
+For now Dt table holds the most promise for simple searbox interface
+
+```{r rawtable}
+DT::datatable(directorio_df)
+```
+
+
+## Tally Titulo
+
+This gives a good view of a basic question. Can sexologos not be psicologos? We dont reclassify cause the current categories have a encoded gender information which is relevant.
+
+[Center values. maybe allow to drilldown]
+
+```{r tallytitulo}
+directorio_df %>% 
+  tally_this(titulo) 
+```
+
+## Tally Enfoque de terapia
+
+```{r tallyenforque}
+directorio_df %>% 
+  tally_this(enfoque_de_la_terapia) 
+  
+```
+
+## Tally Modalidad
+
+```{r tallymodalidad}
+directorio_df %>%
+  tally_this(modalidad) 
+  
+```
+
+## Tally Especialidad
+
+```{r tallyespecialidad}
+directorio_df %>% 
+  tally_this(especialidad) 
+```
+
+## Tally Ciudad
+
+```{r tallyciudad}
+directorio_df %>% 
+  tally_this(ciudad_y_zona_donde_se_encuentra_su_consultorio)  
+```
