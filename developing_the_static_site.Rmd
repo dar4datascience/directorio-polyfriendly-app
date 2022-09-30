@@ -62,6 +62,7 @@ Inicial la pagina web estatica puede dar la opcion de escoger entre:
  - ! Parse **contacto** to get phone
  - ! Establish colnames
  - ! Could add js click event to show pop up of person information
+ - Infinite scroll can be a tab on its own just because
 
 
 ## Raw Data
