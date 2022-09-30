@@ -74,7 +74,8 @@ Could use DT for category interface and once user wants to see information and b
 Also main idea is to dashboard this into minimun 2 tabs and 1 tab allow the infinite scroll
 
 ```{r rawtable}
-DT::datatable(directorio_df)
+DT::datatable(directorio_df,
+              rownames= FALSE)
 ```
 
 ## Raw data with less columns
@@ -85,7 +86,8 @@ directorio_df %>%
             institucion_donde_estudio,
             contacto,
             especialidad)) %>% 
-  DT::datatable(.)
+  DT::datatable(.,
+                rownames= FALSE)
 ```
 
 
