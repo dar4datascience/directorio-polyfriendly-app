@@ -57,14 +57,33 @@ My current idea is to tally the category to measure the most repeated values to 
 
 Inicial la pagina web estatica puede dar la opcion de escoger entre:
  - escoger por presencial o en linea: **modalidad** y **ciudad** requires parsing into 2 and categorized. I dont want to do parsing so maybe I can tokenize **institucion, especialidad, 
+ 
+
+ - ! Parse **contacto** to get phone
+ - ! Establish colnames
 
 
 ## Raw Data
 
-For now Dt table holds the most promise for simple searbox interface
+For now Dt table holds the most promise for simple searbox interface.
+
+Could use DT for category interface and once user wants to see information and biography allow click reveal.
+
+Also main idea is to dashboard this into minimun 2 tabs and 1 tab allow the infinite scroll
 
 ```{r rawtable}
 DT::datatable(directorio_df)
+```
+
+## Raw data with less columns
+
+```{r rawtable2}
+directorio_df %>% 
+  select(!c(9:10,
+            institucion_donde_estudio,
+            contacto,
+            especialidad)) %>% 
+  DT::datatable(.)
 ```
 
 
